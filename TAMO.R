@@ -1,5 +1,4 @@
 
-
 library(tidyverse)
 library(janitor)
 library(MCOE)
@@ -37,8 +36,10 @@ TAMO %>%
         School_Grade_Span == "ALL",
         Academic_Year == "2021-22"
         ) %>%
+    left_join_codebook(tablename = "TEACHING",
+                       field = "Subject_Area") %>%
     lollipop(Clear_FTE_percent,
-             Subject_Area,
+             definition,
              "steel blue") +
     labs(x = "",
          y = "",
@@ -58,6 +59,24 @@ TAMO %>%
     ) %>%
     lollipop(Clear_FTE_percent,
              District_Name,
+             "steel blue") +
+    labs(x = "",
+         y = "",
+         color ="",
+         title = ("Teaching Assignments Clear by District"),
+         caption = "") 
+
+# By Gradespan
+
+TAMO %>%
+    filter(
+        Aggregate_Level == "C",
+      #  School_Grade_Span == "ALL",
+        Subject_Area == "TA",
+        Academic_Year == "2021-22"
+    ) %>%
+    lollipop(Clear_FTE_percent,
+             School_Grade_Span,
              "steel blue") +
     labs(x = "",
          y = "",
